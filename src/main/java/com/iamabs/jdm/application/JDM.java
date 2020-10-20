@@ -1,6 +1,10 @@
 package com.iamabs.jdm.application;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.geom.RoundRectangle2D;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class JDM extends javax.swing.JFrame {
 
@@ -9,8 +13,25 @@ public class JDM extends javax.swing.JFrame {
 
     public JDM() {
         initComponents();
-        this.setIconImage(new ImageIcon(getClass().getResource("/icon.png")).getImage());
+        componentCustomization();
     }
+    
+    public void componentCustomization() {
+        // set frame icon
+        this.setIconImage(new ImageIcon(getClass().getResource("/icon.png")).getImage());
+        // round frame by 6px
+        this.setShape((new RoundRectangle2D.Double(10, 10, 640, 490, 6, 6)));
+        // set gradient background
+            Image img = new ImageIcon(getClass().getResource("/assets/images/background.png")).getImage();
+            this.setContentPane(new JPanel() {
+             @Override
+             public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img, 0, 0, null);
+             }
+          });
+    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -19,6 +40,7 @@ public class JDM extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JDM");
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(600, 500));
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 formMouseDragged(evt);
