@@ -2,7 +2,6 @@ package com.iamabs.jdm.application;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.geom.RoundRectangle2D;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -19,8 +18,6 @@ public class JDM extends javax.swing.JFrame {
     public void componentCustomization() {
         // set frame icon
         this.setIconImage(new ImageIcon(getClass().getResource("/icon.png")).getImage());
-        // round frame by 6px
-        this.setShape((new RoundRectangle2D.Double(10, 10, 640, 490, 6, 6)));
         // set gradient background
             Image img = new ImageIcon(getClass().getResource("/assets/images/background.png")).getImage();
             this.setContentPane(new JPanel() {
