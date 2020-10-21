@@ -3,7 +3,10 @@ package com.iamabs.jdm.application;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 public class JDM extends javax.swing.JFrame {
 
@@ -56,7 +59,9 @@ public class JDM extends javax.swing.JFrame {
             }
         });
 
-        closeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/003-cancel-1.png"))); // NOI18N
+        closeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/004-cancel.png"))); // NOI18N
+        closeBtn.setToolTipText("Exit");
+        closeBtn.setContentAreaFilled(false);
         closeBtn.setMaximumSize(new java.awt.Dimension(40, 40));
         closeBtn.setMinimumSize(new java.awt.Dimension(40, 40));
         closeBtn.setPreferredSize(new java.awt.Dimension(40, 40));
@@ -67,6 +72,7 @@ public class JDM extends javax.swing.JFrame {
         });
 
         pauseBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/pause.png"))); // NOI18N
+        pauseBtn.setToolTipText("Stop");
         pauseBtn.setBorderPainted(false);
         pauseBtn.setContentAreaFilled(false);
         pauseBtn.setMaximumSize(new java.awt.Dimension(40, 40));
@@ -74,6 +80,7 @@ public class JDM extends javax.swing.JFrame {
         pauseBtn.setPreferredSize(new java.awt.Dimension(40, 40));
 
         downloadBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/download.png"))); // NOI18N
+        downloadBtn.setToolTipText("Download");
         downloadBtn.setBorderPainted(false);
         downloadBtn.setContentAreaFilled(false);
         downloadBtn.setMaximumSize(new java.awt.Dimension(40, 40));
@@ -86,6 +93,7 @@ public class JDM extends javax.swing.JFrame {
         });
 
         deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/trash.png"))); // NOI18N
+        deleteBtn.setToolTipText("Cancel");
         deleteBtn.setBorderPainted(false);
         deleteBtn.setContentAreaFilled(false);
         deleteBtn.setMaximumSize(new java.awt.Dimension(40, 40));
@@ -93,6 +101,7 @@ public class JDM extends javax.swing.JFrame {
         deleteBtn.setPreferredSize(new java.awt.Dimension(40, 40));
 
         resumeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/play-button.png"))); // NOI18N
+        resumeBtn.setToolTipText("Start");
         resumeBtn.setBorderPainted(false);
         resumeBtn.setContentAreaFilled(false);
         resumeBtn.setMaximumSize(new java.awt.Dimension(40, 40));
@@ -105,8 +114,9 @@ public class JDM extends javax.swing.JFrame {
         });
 
         urlTextField.setBackground(new java.awt.Color(75, 135, 214));
-        urlTextField.setFont(new java.awt.Font("DejaVu Sans", 0, 18)); // NOI18N
-        urlTextField.setToolTipText("");
+        urlTextField.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
+        urlTextField.setToolTipText("File URL");
+        urlTextField.setOpaque(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,7 +124,7 @@ public class JDM extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(urlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                .addComponent(urlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(downloadBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -138,7 +148,7 @@ public class JDM extends javax.swing.JFrame {
                     .addComponent(deleteBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(resumeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(urlTextField))
-                .addContainerGap(450, Short.MAX_VALUE))
+                .addContainerGap(452, Short.MAX_VALUE))
         );
 
         pack();
@@ -169,20 +179,9 @@ public class JDM extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JDM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JDM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JDM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JDM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "JVM Does not contains Nimbus Theme");
         }
         
         java.awt.EventQueue.invokeLater(new Runnable() {
