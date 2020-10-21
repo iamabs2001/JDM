@@ -35,6 +35,11 @@ public class JDM extends javax.swing.JFrame {
     private void initComponents() {
 
         closeBtn = new javax.swing.JButton();
+        pauseBtn = new javax.swing.JButton();
+        downloadBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        resumeBtn = new javax.swing.JButton();
+        urlTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JDM");
@@ -52,18 +57,73 @@ public class JDM extends javax.swing.JFrame {
         });
 
         closeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/003-cancel-1.png"))); // NOI18N
+        closeBtn.setMaximumSize(new java.awt.Dimension(40, 40));
+        closeBtn.setMinimumSize(new java.awt.Dimension(40, 40));
+        closeBtn.setPreferredSize(new java.awt.Dimension(40, 40));
         closeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeBtnActionPerformed(evt);
             }
         });
 
+        pauseBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/pause.png"))); // NOI18N
+        pauseBtn.setBorderPainted(false);
+        pauseBtn.setContentAreaFilled(false);
+        pauseBtn.setMaximumSize(new java.awt.Dimension(40, 40));
+        pauseBtn.setMinimumSize(new java.awt.Dimension(40, 40));
+        pauseBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+
+        downloadBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/download.png"))); // NOI18N
+        downloadBtn.setBorderPainted(false);
+        downloadBtn.setContentAreaFilled(false);
+        downloadBtn.setMaximumSize(new java.awt.Dimension(40, 40));
+        downloadBtn.setMinimumSize(new java.awt.Dimension(40, 40));
+        downloadBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        downloadBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadBtnActionPerformed(evt);
+            }
+        });
+
+        deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/trash.png"))); // NOI18N
+        deleteBtn.setBorderPainted(false);
+        deleteBtn.setContentAreaFilled(false);
+        deleteBtn.setMaximumSize(new java.awt.Dimension(40, 40));
+        deleteBtn.setMinimumSize(new java.awt.Dimension(40, 40));
+        deleteBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+
+        resumeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/play-button.png"))); // NOI18N
+        resumeBtn.setBorderPainted(false);
+        resumeBtn.setContentAreaFilled(false);
+        resumeBtn.setMaximumSize(new java.awt.Dimension(40, 40));
+        resumeBtn.setMinimumSize(new java.awt.Dimension(40, 40));
+        resumeBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        resumeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resumeBtnActionPerformed(evt);
+            }
+        });
+
+        urlTextField.setBackground(new java.awt.Color(75, 135, 214));
+        urlTextField.setFont(new java.awt.Font("DejaVu Sans", 0, 18)); // NOI18N
+        urlTextField.setToolTipText("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(604, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(urlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(downloadBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resumeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pauseBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -71,8 +131,14 @@ public class JDM extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(454, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pauseBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(downloadBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resumeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(urlTextField))
+                .addContainerGap(450, Short.MAX_VALUE))
         );
 
         pack();
@@ -92,6 +158,14 @@ public class JDM extends javax.swing.JFrame {
     private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
         System.exit(0);
     }//GEN-LAST:event_closeBtnActionPerformed
+
+    private void downloadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_downloadBtnActionPerformed
+
+    private void resumeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resumeBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resumeBtnActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -120,5 +194,10 @@ public class JDM extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeBtn;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton downloadBtn;
+    private javax.swing.JButton pauseBtn;
+    private javax.swing.JButton resumeBtn;
+    private javax.swing.JTextField urlTextField;
     // End of variables declaration//GEN-END:variables
 }
