@@ -37,7 +37,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="urlTextField" pref="315" max="32767" attributes="0"/>
+                      <Component id="urlTextField" pref="317" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="downloadBtn" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -68,7 +68,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="7" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -208,9 +208,9 @@
               <Table columnCount="7" rowCount="0">
                 <Column editable="false" title="File" type="java.lang.String"/>
                 <Column editable="false" title="Progress" type="java.lang.String"/>
-                <Column editable="false" title="Size (MB)" type="java.lang.String"/>
-                <Column editable="false" title="Speed (KBPS)" type="java.lang.String"/>
-                <Column editable="false" title="status" type="java.lang.String"/>
+                <Column editable="false" title="Size MB" type="java.lang.String"/>
+                <Column editable="false" title="Speed KBPS" type="java.lang.String"/>
+                <Column editable="false" title="Status" type="java.lang.String"/>
                 <Column editable="false" title="Elapsed Time" type="java.lang.String"/>
                 <Column editable="false" title="Time Left" type="java.lang.String"/>
               </Table>

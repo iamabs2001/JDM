@@ -6,7 +6,7 @@ import javax.swing.table.*;
 
 class DownloadTableModel extends AbstractTableModel implements Observer {
 
-    private static final String[] TableColumns = {"File", "Progress", "Size (MB)", "Speed (KBPS)", "status", "Elapsed Time", "Time Left"};
+    private static final String[] TableColumns = {"File", "Progress", "Size MB", "Speed KBPS", "Status", "Elapsed Time", "Time Left"};
     private static final Class[] TableColumnsDataType = {String.class, JProgressBar.class, String.class, String.class, String.class, String.class, String.class};
     private ArrayList<DownloaderService> downloadList = new ArrayList<DownloaderService>();
 

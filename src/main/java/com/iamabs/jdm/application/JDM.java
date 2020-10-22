@@ -46,8 +46,7 @@ public class JDM extends javax.swing.JFrame {
     }
     
     public void initConfigs() {
-        DownloadTable = new JTable(downloadTableModel);
-        DownloadTable.setModel(downloadTableModel);
+            DownloadTable.setModel(downloadTableModel);
             DownloadTable.getSelectionModel().addListSelectionListener(new
             ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -56,7 +55,6 @@ public class JDM extends javax.swing.JFrame {
         });
         progresService.setStringPainted(true);
         DownloadTable.setDefaultRenderer(JProgressBar.class, progresService);
-        DownloadTable.setRowHeight((int) progresService.getPreferredSize().getHeight());  
     }
     
       private void tableSelectionChanged() {
@@ -171,7 +169,7 @@ public class JDM extends javax.swing.JFrame {
 
             },
             new String [] {
-                "File", "Progress", "Size (MB)", "Speed (KBPS)", "status", "Elapsed Time", "Time Left"
+                "File", "Progress", "Size MB", "Speed KBPS", "Status", "Elapsed Time", "Time Left"
             }
         ) {
             Class[] types = new Class [] {
@@ -202,7 +200,7 @@ public class JDM extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(urlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                        .addComponent(urlTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(downloadBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -228,7 +226,7 @@ public class JDM extends javax.swing.JFrame {
                     .addComponent(urlTextField))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
