@@ -5,23 +5,23 @@ import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Observable;
+import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-public class JDM extends javax.swing.JFrame {
+public class JDM extends javax.swing.JFrame implements Observer {
 
     DownloaderService downloaderService = null;
     DownloadTableModel downloadTableModel = new DownloadTableModel();
     DownloaderService selectedDownload = null;
     ProgresService progresService = new ProgresService(0, 100);
-    Boolean clear = null;
+    Boolean clear = false;
     int xx = 0;
     int yy = 0;
 
@@ -58,11 +58,13 @@ public class JDM extends javax.swing.JFrame {
     }
     
       private void tableSelectionChanged() {
-        if (selectedDownload != null)
-            selectedDownload.deleteObserver(downloadTableModel);
+        if (selectedDownload != null) {
+            selectedDownload.deleteObserver(JDM.this);
+        }
         if (!clear) {
             selectedDownload = downloadTableModel.getDownload(DownloadTable.getSelectedRow());
-            selectedDownload.addObserver(downloadTableModel);
+            selectedDownload.addObserver(JDM.this);
+            RefreshButton();
         }
     }
     
