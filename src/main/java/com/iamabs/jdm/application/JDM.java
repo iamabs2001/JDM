@@ -2,6 +2,8 @@ package com.iamabs.jdm.application;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -10,6 +12,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 public class JDM extends javax.swing.JFrame {
 
+    DownloaderService downloaderService = null;
     int xx = 0;
     int yy = 0;
 
@@ -170,7 +173,14 @@ public class JDM extends javax.swing.JFrame {
     }//GEN-LAST:event_closeBtnActionPerformed
 
     private void downloadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadBtnActionPerformed
-        // TODO add your handling code here:
+        try {
+            downloaderService = new DownloaderService(new URL(urlTextField.getText().toString()));    
+        } catch (MalformedURLException badUrl) {
+            JOptionPane.showMessageDialog(null, "Not a Valid URL");
+        } catch (Exception e ) {
+            JOptionPane.showMessageDialog(null, "Something went wrong!");
+        }
+        
     }//GEN-LAST:event_downloadBtnActionPerformed
 
     private void resumeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resumeBtnActionPerformed
