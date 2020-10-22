@@ -4,21 +4,31 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Observable;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 public class JDM extends javax.swing.JFrame {
 
     DownloaderService downloaderService = null;
+    DownloadTableModel downloadTableModel = new DownloadTableModel();
+    DownloaderService selectedDownload = null;
+    ProgresService progresService = new ProgresService(0, 100);
+    Boolean clear = null;
     int xx = 0;
     int yy = 0;
 
     public JDM() {
         componentCustomization();
         initComponents();
+        initConfigs();
     }
     
     public void componentCustomization() {
@@ -33,6 +43,29 @@ public class JDM extends javax.swing.JFrame {
                 g.drawImage(img, 0, 0, null);
              }
           });
+    }
+    
+    public void initConfigs() {
+        DownloadTable = new JTable(downloadTableModel);
+        DownloadTable.setModel(downloadTableModel);
+            DownloadTable.getSelectionModel().addListSelectionListener(new
+            ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                tableSelectionChanged();
+            }
+        });
+        progresService.setStringPainted(true);
+        DownloadTable.setDefaultRenderer(JProgressBar.class, progresService);
+        DownloadTable.setRowHeight((int) progresService.getPreferredSize().getHeight());  
+    }
+    
+      private void tableSelectionChanged() {
+        if (selectedDownload != null)
+            selectedDownload.deleteObserver(downloadTableModel);
+        if (!clear) {
+            selectedDownload = downloadTableModel.getDownload(DownloadTable.getSelectedRow());
+            selectedDownload.addObserver(downloadTableModel);
+        }
     }
     
 
@@ -83,6 +116,11 @@ public class JDM extends javax.swing.JFrame {
         pauseBtn.setMaximumSize(new java.awt.Dimension(40, 40));
         pauseBtn.setMinimumSize(new java.awt.Dimension(40, 40));
         pauseBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        pauseBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pauseBtnActionPerformed(evt);
+            }
+        });
 
         downloadBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/download.png"))); // NOI18N
         downloadBtn.setToolTipText("Download");
@@ -104,6 +142,11 @@ public class JDM extends javax.swing.JFrame {
         deleteBtn.setMaximumSize(new java.awt.Dimension(40, 40));
         deleteBtn.setMinimumSize(new java.awt.Dimension(40, 40));
         deleteBtn.setPreferredSize(new java.awt.Dimension(40, 40));
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
 
         resumeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/play-button.png"))); // NOI18N
         resumeBtn.setToolTipText("Start");
@@ -125,18 +168,14 @@ public class JDM extends javax.swing.JFrame {
 
         DownloadTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "File", "Progress", "Size (MB)", "Speed (KBps)", "status", "Elapsed Time", "Time Left"
+                "File", "Progress", "Size (MB)", "Speed (KBPS)", "status", "Elapsed Time", "Time Left"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -151,6 +190,7 @@ public class JDM extends javax.swing.JFrame {
             }
         });
         DownloadTable.setCellSelectionEnabled(true);
+        DownloadTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(DownloadTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -211,18 +251,66 @@ public class JDM extends javax.swing.JFrame {
 
     private void downloadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadBtnActionPerformed
         try {
-            downloaderService = new DownloaderService(new URL(urlTextField.getText().toString()));    
+            URL url = new URL(urlTextField.getText().toString());
+            downloadTableModel.addDownload(new DownloaderService(url));
+            urlTextField.setText("");
         } catch (MalformedURLException badUrl) {
             JOptionPane.showMessageDialog(null, "Not a Valid URL");
         } catch (Exception e ) {
             JOptionPane.showMessageDialog(null, "Something went wrong!");
         }
-        
     }//GEN-LAST:event_downloadBtnActionPerformed
 
+    private void RefreshButton() {
+                if (selectedDownload != null) {
+            int status = selectedDownload.getStatus();
+            switch (status) {
+                case DownloaderService.DOWNLOADING:
+                    pauseBtn.setEnabled(true);
+                    resumeBtn.setEnabled(false);
+                    deleteBtn.setEnabled(true);
+                    break;
+                case DownloaderService.PAUSED:
+                    pauseBtn.setEnabled(false);
+                    resumeBtn.setEnabled(true);
+                    deleteBtn.setEnabled(true);
+                    break;
+                case DownloaderService.ERROR:
+                    pauseBtn.setEnabled(false);
+                    resumeBtn.setEnabled(true);
+                    deleteBtn.setEnabled(false);
+                    break;
+                default: // COMPLETE or CANCELLED
+                    pauseBtn.setEnabled(false);
+                    resumeBtn.setEnabled(false);
+                    deleteBtn.setEnabled(false);
+            }
+        } else {
+            pauseBtn.setEnabled(false);
+            resumeBtn.setEnabled(false);
+            deleteBtn.setEnabled(false);
+        }
+    }
+    
+    public void update(Observable o, Object arg) {        
+        if (selectedDownload != null && selectedDownload.equals(o))
+            RefreshButton();
+    }
+    
     private void resumeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resumeBtnActionPerformed
-        // TODO add your handling code here:
+       selectedDownload.resume();
+       RefreshButton();
     }//GEN-LAST:event_resumeBtnActionPerformed
+
+    private void pauseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseBtnActionPerformed
+        selectedDownload.pause();
+        RefreshButton();
+    }//GEN-LAST:event_pauseBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        selectedDownload.cancel();
+        RefreshButton();
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
     public static void main(String args[]) {
         try {
